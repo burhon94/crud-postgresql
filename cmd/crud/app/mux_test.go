@@ -1,7 +1,6 @@
 package app
 
-import "testing"
-
+/*
 func Test_emptySearchInMap(t *testing.T) {
 	var m map[string]map[string] string
 	data, ok := m["GET"]["/"]
@@ -41,3 +40,4 @@ func Test_calculateWeight(t *testing.T) {
 		})
 	}
 }
+ */
