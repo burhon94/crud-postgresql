@@ -13,20 +13,27 @@ import (
 	"github.com/jackc/pgx/v4/pgxpool"
 	"net"
 	"net/http"
+	"os"
 	"path/filepath"
 )
 
 var (
+
 	host = flag.String("host", "0.0.0.0", "Server host")
-	port = flag.String("port", "9999", "Server port")
+
+	//port = flag.Value()
 	//dsn  = flag.String("dsn", "postgres://app:pass@localhost:5432/app", "Postgres DSN")
 	dsn  = flag.String("dsn", "postgres://tagspmotvklkfi:9cb1a3d6f70ad82baecafe26750b184e30e1dfeed0ec884b1f1aee6b119f4f3d@ec2-18-210-51-239.compute-1.amazonaws.com:5432/dcs5aet6f8io8d", "Postgres DSN")
 	//	dsn  = flag.String("dsn", "postgres://tagspmotvklkfi:9cb1a3d6f70ad82baecafe26750b184e30e1dfeed0ec884b1f1aee6b119f4f3d@ec2-18-210-51-239.compute-1.amazonaws.com:5432/dcs5aet6f8io8d", "Postgres DSN")
 )
 
 func main() {
+	port, ok := os.LookupEnv("PORT")
+	if !ok {
+		port = "9999"
+	}
 	flag.Parse()
-	addr := net.JoinHostPort(*host, *port)
+	addr := net.JoinHostPort(*host, port)
 	start(addr, *dsn)
 }
 

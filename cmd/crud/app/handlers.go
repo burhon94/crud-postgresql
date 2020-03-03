@@ -22,7 +22,7 @@ func showBurgers(receiver *server, writer http.ResponseWriter, tpl *template.Tem
 		Title   string
 		Burgers []models.Burger
 	}{
-		Title:   "KFS, so good",
+		Title:   "KFC, so good =)",
 		Burgers: list,
 	}
 
