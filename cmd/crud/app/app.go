@@ -8,8 +8,7 @@ import (
 )
 
 // описание сервиса, который хранит зависимости и выполняет работу
-type server struct { // <- Alt + Enter -> Constructor
-	// зависимости (dependencies)
+type server struct {
 	pool          *pgxpool.Pool
 	router        http.Handler
 	burgersSvc    *burgers.BurgersSvc
@@ -17,11 +16,6 @@ type server struct { // <- Alt + Enter -> Constructor
 	assetsPath    string
 }
 
-// Все зависимости делятся на:
-// 1. required <-
-// 2. optional
-
-// crash early
 func NewServer(router http.Handler, pool *pgxpool.Pool, burgersSvc *burgers.BurgersSvc, templatesPath string, assetsPath string) *server {
 	if router == nil {
 		panic(errors.New("router can't be nil"))

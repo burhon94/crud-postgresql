@@ -13,23 +13,30 @@
 
 <form action="/burgers/save" method="POST">
     <input type="hidden" name="action" value="save">
-    <input type="text" name="name">
-    <input type="number" name="price">
+    <label>
+        Name: <input type="text" name="name" size="25px">
+    </label>
+    <label>
+        Price: <input type="number" name="price">
+    </label>
     <button>Ok</button>
 </form>
-
-<ul>
-    {{range $index, $val := .Burgers}}
-    <li>
-        {{$index}} {{$val}}
-        <form action="/burgers/remove" method="POST">
-            <input type="hidden" name="action" value="remove">
-            <input type="hidden" name="id" value="{{$val.Id}}">
-            <button>Remove</button>
-        </form>
-    </li>
-    {{end}}
-</ul>
+<div style="margin-top: 5px;">
+    <ul>
+        {{range $val := .Burgers}}
+            <li style="font-size: 25px;">
+                <label>Name: {{$val.Name}}</label>
+                <label>Price: {{$val.Price}}</label>
+                <label>rub</label>
+                <form action="/burgers/remove" method="POST">
+                    <input type="hidden" name="action" value="remove">
+                    <input type="hidden" name="id" value="{{$val.Id}}">
+                    <button>Remove</button>
+                </form>
+            </li>
+        {{end}}
+    </ul>
+</div>
 
 </body>
 </html>

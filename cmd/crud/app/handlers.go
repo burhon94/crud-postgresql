@@ -79,7 +79,6 @@ func (receiver *server) handleBurgersSave() func(responseWriter http.ResponseWri
 			return
 		}
 
-		// TODO: посмотреть, можно ли переделать на GET
 		err = showBurgers(receiver, writer, tpl)
 		if err != nil {
 			log.Printf("Error while print burgers: %v", err)
@@ -93,7 +92,7 @@ func (receiver *server) handleBurgersSave() func(responseWriter http.ResponseWri
 func (receiver *server) handleBurgersRemove() func(responseWriter http.ResponseWriter, request *http.Request) {
 	tpl, err := template.ParseFiles(filepath.Join(receiver.templatesPath, "index.gohtml"))
 	if err != nil {
-		panic(err)
+		log.Printf("can't parse index page: %v", err)
 	}
 	return func(writer http.ResponseWriter, request *http.Request) {
 
@@ -118,18 +117,17 @@ func (receiver *server) handleBurgersRemove() func(responseWriter http.ResponseW
 			log.Printf("Error while print burgers: %v", err)
 		}
 
-		// TODO: посмотреть, можно ли переделать на GET
 		http.Redirect(writer, request, "/", http.StatusPermanentRedirect)
 		return
 	}
 }
 
 func (receiver *server) handleFavicon() func(http.ResponseWriter, *http.Request) {
-	// TODO: handle concurrency
 	file, err := ioutil.ReadFile(filepath.Join(receiver.assetsPath, "favicon.ico"))
 	if err != nil {
 		log.Printf("can't read favicon file: %v", err)
 	}
+
 	return func(writer http.ResponseWriter, request *http.Request) {
 		_, err := writer.Write(file)
 		if err != nil {

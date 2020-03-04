@@ -12,7 +12,7 @@ func MyError(text string, err error) *myError {
 }
 
 func (receiver *myError) Error() string {
-	return fmt.Sprintf("can't transact data: %v", receiver.err.Error())
+	return fmt.Sprintf("error: %v", receiver.err.Error())
 }
 
 func (receiver *myError) Unwrap() error {

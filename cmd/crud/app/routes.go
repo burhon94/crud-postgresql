@@ -4,11 +4,6 @@ package app
 // за разделение handler'ов по адресам -> routing
 func (receiver *server) InitRoutes() {
 	mux := receiver.router.(*exactMux)
-	// panic, если происходят конфликты
-	// Handle - добавляет Handler (неудобно)
-	//
-	// стандартный mux:
-	// - если адрес начинается со "/" - то под действие обработчика попадает всё, что начинается со "/"
 	mux.GET("/", receiver.handleBurgersList())
 
 	mux.POST("/burgers/save", receiver.handleBurgersSave())

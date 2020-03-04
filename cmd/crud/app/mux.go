@@ -10,8 +10,6 @@ import (
 )
 
 // GET - список, привязывать Handler
-// Уметь извлекать параметры запросов
-// https://vk.com/id{number}
 
 type exactMux struct {
 	mutex           sync.RWMutex
@@ -43,12 +41,12 @@ func (m *exactMux) POST(pattern string, handlerFunc func(responseWriter http.Res
 }
 
 func (m *exactMux) HandleFunc(method string, pattern string, handlerFunc func(responseWriter http.ResponseWriter, request *http.Request)) {
-	// pattern: "/..."
+
 	if !strings.HasPrefix(pattern, "/") {
 		panic(fmt.Errorf("pattern must start with /: %s", pattern))
 	}
 
-	if handlerFunc == nil { // ?
+	if handlerFunc == nil {
 		panic(errors.New("handler can't be empty"))
 	}
 
@@ -60,7 +58,6 @@ func (m *exactMux) HandleFunc(method string, pattern string, handlerFunc func(re
 		weight:  calculateWeight(pattern),
 	}
 
-	// запретить добавлять дубликаты
 	if _, exists := m.routes[method][pattern]; exists {
 		panic(fmt.Errorf("ambigious mapping: %s", pattern))
 	}
