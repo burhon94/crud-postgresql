@@ -39,7 +39,7 @@ func main() {
 	if *dsn == "" {
 		*dsn, ok = os.LookupEnv("DATABASE_URL")
 		if !ok {
-			*dsn = dbUrl
+			*dsn = dbLocal
 		}
 	}
 	log.Printf("try start server on: %s, dbUrl %v", addr, dsn)
