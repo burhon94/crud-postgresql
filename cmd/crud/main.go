@@ -3,48 +3,55 @@ package main
 import (
 	"context"
 	"crud/cmd/crud/app"
-	"crud/pkg/crud/services/burgers"
+	"crud/pkg/tools/services"
+	"crud/pkg/tools/services/burgers"
 	"flag"
 	"github.com/jackc/pgx/v4/pgxpool"
 	"log"
 	"net"
 	"net/http"
-	"os"
 	"path/filepath"
 )
 
-const wildCard = "0.0.0.0"
-const dbUrl = "postgres://tagspmotvklkfi:9cb1a3d6f70ad82baecafe26750b184e30e1dfeed0ec884b1f1aee6b119f4f3d@ec2-18-210-51-239.compute-1.amazonaws.com:5432/dcs5aet6f8io8d"
-const dbLocal = "postgres://tagspmotvklkfi:9cb1a3d6f70ad82baecafe26750b184e30e1dfeed0ec884b1f1aee6b119f4f3d@localhost:5432/dcs5aet6f8io8d"
-const db = "postgres://app:pass@localhost:5432/app"
-const numberPort = "9999"
+const (
+	ENV_HOST = "HOST"
+	ENV_PORT = "PORT"
+	ENV_DSN  = "DATABASE_URL"
+)
 
 var (
-	host = flag.String("host", "", "Server host")
-	dsn  = flag.String("dsn", "", "Postgres DSN")
+	hostFlag = flag.String("host", "", "Server host")
+	portFlag = flag.String("port", "", "Server port")
+	dsnFlag = flag.String("dsn", "", "Postgres DSN")
 )
 
 func main() {
-	*host = wildCard
-	log.Println("get port to connect")
-	port, ok := os.LookupEnv("PORT")
-	if !ok {
-		port = numberPort
-	}
 	flag.Parse()
-	log.Println("set address to connect")
-	addr := net.JoinHostPort(*host, port)
-	log.Printf("address to connect: %s", addr)
-	log.Println("set database to connect")
-	if *dsn == "" {
-		*dsn, ok = os.LookupEnv("DATABASE_URL")
-		if !ok {
-			*dsn = dbLocal
-		}
+
+	log.Println("host setting to connect")
+	host, ok := services.FlagOrEnv(hostFlag, ENV_HOST)
+	if !ok {
+		log.Fatal("host not find")
 	}
-	log.Printf("try start server on: %s, dbUrl %v", addr, dsn)
-	start(addr, *dsn)
-	log.Printf("server succes on: %s, dbUrl %v", addr, dsn)
+
+	log.Println("get port to connect")
+	port, ok := services.FlagOrEnv(portFlag, ENV_PORT)
+	if !ok {
+		log.Fatal("port not specified")
+	}
+	log.Println("set address to connect")
+	addr := net.JoinHostPort(host, port)
+	log.Printf("address to connect: %s", addr)
+
+	log.Println("set database to connect")
+	dsn, ok := services.FlagOrEnv(dsnFlag, ENV_DSN)
+	if !ok {
+		log.Fatal("db url not specified")
+	}
+
+	log.Printf("try start server on: %s, dbUrl: %s", addr, dsn)
+	start(addr, dsn)
+	log.Printf("server success on: %s, dbUrl: %s", addr, dsn)
 }
 
 func start(addr string, dsn string) {

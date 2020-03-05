@@ -1,7 +1,7 @@
 package app
 
 import (
-	"crud/pkg/crud/models"
+	"crud/pkg/tools/models"
 	"html/template"
 	"io/ioutil"
 	"log"
@@ -64,6 +64,7 @@ func (receiver *server) handleBurgersSave() func(responseWriter http.ResponseWri
 
 		parsedPrice, err := strconv.Atoi(price)
 		if err != nil {
+			log.Printf("incorect data from request: %v", err)
 			http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 			return
 		}
@@ -75,6 +76,7 @@ func (receiver *server) handleBurgersSave() func(responseWriter http.ResponseWri
 
 		if err != nil {
 			log.Print(err)
+			log.Printf("error while saving burger: %v", err)
 			http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 			return
 		}
@@ -100,6 +102,7 @@ func (receiver *server) handleBurgersRemove() func(responseWriter http.ResponseW
 
 		idNumBurger, err := strconv.Atoi(idBurger)
 		if err != nil {
+			log.Printf("incorect data from request: %v", err)
 			http.Error(writer, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
 			return
 		}
@@ -107,7 +110,7 @@ func (receiver *server) handleBurgersRemove() func(responseWriter http.ResponseW
 		err = receiver.burgersSvc.RemoveById(int64(idNumBurger))
 
 		if err != nil {
-			log.Print(err)
+			log.Printf("error while remove burger: %v", err)
 			http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 			return
 		}
@@ -131,7 +134,7 @@ func (receiver *server) handleFavicon() func(http.ResponseWriter, *http.Request)
 	return func(writer http.ResponseWriter, request *http.Request) {
 		_, err := writer.Write(file)
 		if err != nil {
-			log.Print(err)
+			log.Printf("error while sent favicon: %v", err)
 		}
 	}
 }

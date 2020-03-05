@@ -1,4 +1,4 @@
-package errors
+package apiErrors
 
 import "fmt"
 
@@ -7,7 +7,7 @@ type myError struct {
 	err error
 }
 
-func MyError(text string, err error) *myError {
+func ApiError(text string, err error) *myError {
 	return &myError{text: text, err: err}
 }
 

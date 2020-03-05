@@ -1,7 +1,7 @@
 package app
 
 import (
-	"crud/pkg/crud/services/burgers"
+	"crud/pkg/tools/services/burgers"
 	"errors"
 	"github.com/jackc/pgx/v4/pgxpool"
 	"net/http"
