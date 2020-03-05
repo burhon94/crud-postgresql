@@ -31,12 +31,14 @@ func main() {
 	log.Println("host setting to connect")
 	host, ok := services.FlagOrEnv(hostFlag, ENV_HOST)
 	if !ok {
-		log.Fatal("host not find")
+		//log.Fatal("host not find")
+		host = "0.0.0.0"
 	}
 	log.Println("get port to connect")
 	port, ok := services.FlagOrEnv(portFlag, ENV_PORT)
 	if !ok {
-		log.Fatal("port not specified")
+		//log.Fatal("port not specified")
+		port = "9999"
 	}
 	log.Println("set address to connect")
 	addr := net.JoinHostPort(host, port)
@@ -45,7 +47,8 @@ func main() {
 	log.Println("set database to connect")
 	dsn, ok := services.FlagOrEnv(dsnFlag, ENV_DSN)
 	if !ok {
-		log.Fatal("db url not specified")
+		//dsn = "postgres://tagspmotvklkfi:9cb1a3d6f70ad82baecafe26750b184e30e1dfeed0ec884b1f1aee6b119f4f3d@ec2-18-210-51-239.compute-1.amazonaws.com:5432/dcs5aet6f8io8d"
+		log.Fatal("HEROKU WHERE YOUR DB?")
 	}
 
 	log.Printf("try start server on: %s, dbUrl: %s", addr, dsn)
