@@ -33,7 +33,6 @@ func main() {
 	if !ok {
 		log.Fatal("host not find")
 	}
-
 	log.Println("get port to connect")
 	port, ok := services.FlagOrEnv(portFlag, ENV_PORT)
 	if !ok {

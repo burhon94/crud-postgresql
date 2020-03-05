@@ -5,6 +5,7 @@ package app
 func (receiver *server) InitRoutes() {
 	mux := receiver.router.(*exactMux)
 	mux.GET("/", receiver.handleBurgersList())
+	mux.POST("/", receiver.handleBurgersList())
 
 	mux.POST("/burgers/save", receiver.handleBurgersSave())
 	//mux.GET("/burgers/save", receiver.handleBurgersSave())

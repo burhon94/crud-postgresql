@@ -53,10 +53,7 @@ func (receiver *server) handleBurgersList() func(http.ResponseWriter, *http.Requ
 }
 
 func (receiver *server) handleBurgersSave() func(responseWriter http.ResponseWriter, request *http.Request) {
-	tpl, err := template.ParseFiles(filepath.Join(receiver.templatesPath, "index.gohtml"))
-	if err != nil {
-		log.Printf("can't parse index page: %v", err)
-	}
+
 	return func(writer http.ResponseWriter, request *http.Request) {
 
 		name := request.FormValue("name")
@@ -81,21 +78,13 @@ func (receiver *server) handleBurgersSave() func(responseWriter http.ResponseWri
 			return
 		}
 
-		err = showBurgers(receiver, writer, tpl)
-		if err != nil {
-			log.Printf("Error while print burgers: %v", err)
-		}
-
 		http.Redirect(writer, request, "/", http.StatusPermanentRedirect)
 		return
 	}
 }
 
 func (receiver *server) handleBurgersRemove() func(responseWriter http.ResponseWriter, request *http.Request) {
-	tpl, err := template.ParseFiles(filepath.Join(receiver.templatesPath, "index.gohtml"))
-	if err != nil {
-		log.Printf("can't parse index page: %v", err)
-	}
+
 	return func(writer http.ResponseWriter, request *http.Request) {
 
 		idBurger := request.FormValue("id")
@@ -113,11 +102,6 @@ func (receiver *server) handleBurgersRemove() func(responseWriter http.ResponseW
 			log.Printf("error while remove burger: %v", err)
 			http.Error(writer, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 			return
-		}
-
-		err = showBurgers(receiver, writer, tpl)
-		if err != nil {
-			log.Printf("Error while print burgers: %v", err)
 		}
 
 		http.Redirect(writer, request, "/", http.StatusPermanentRedirect)
