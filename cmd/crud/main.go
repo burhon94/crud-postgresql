@@ -30,7 +30,6 @@ func main() {
 	log.Println("host setting to connect")
 	host, ok := services.FlagOrEnv(hostFlag, ENV_HOST)
 	if !ok {
-		//host = "0.0.0.0"
 		log.Panic("can't host setting")
 	}
 	log.Println("get port to connect")
